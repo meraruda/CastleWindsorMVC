@@ -1,0 +1,1650 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'gina-db.dbo.alexa_skill_auth_infos' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="alexa_skill_auth_infos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="guid" Type="varchar" MaxLength="100" />
+          <Property Name="client_id" Type="varchar" MaxLength="100" />
+          <Property Name="response_type" Type="varchar" MaxLength="50" />
+          <Property Name="scope" Type="varchar(max)" />
+          <Property Name="response_mode" Type="varchar" MaxLength="50" />
+          <Property Name="redirect_uri" Type="varchar(max)" />
+          <Property Name="state" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="auth_mapping">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="auth_login_id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="uid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="channelid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="allow_notify" Type="smallint" />
+        </EntityType>
+        <EntityType Name="auth_transfer">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="validate" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="authresult" Type="varchar(max)" Nullable="false" />
+          <Property Name="uid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="channelid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="expired" Type="datetime" />
+          <Property Name="transfer_time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginamsg_account">
+          <Key>
+            <PropertyRef Name="phone_number" />
+          </Key>
+          <Property Name="phone_number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="regist_status" Type="varchar" MaxLength="20" />
+          <Property Name="regist_date" Type="datetime" />
+          <Property Name="language" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="ginamsg_account_validate">
+          <Key>
+            <PropertyRef Name="account_phone_number" />
+            <PropertyRef Name="validate_times" />
+          </Key>
+          <Property Name="account_phone_number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="validate_times" Type="int" Nullable="false" />
+          <Property Name="validate_code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="validate_expired" Type="datetime" Nullable="false" />
+          <Property Name="validate_status" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginamsg_account_validate2">
+          <Key>
+            <PropertyRef Name="channel_id" />
+            <PropertyRef Name="channel" />
+            <PropertyRef Name="account_phone_number" />
+            <PropertyRef Name="validate_times" />
+          </Key>
+          <Property Name="channel_id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="channel" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="validate_times" Type="int" Nullable="false" />
+          <Property Name="validate_code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="validate_expired" Type="datetime" Nullable="false" />
+          <Property Name="validate_status" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginamsg_contact">
+          <Key>
+            <PropertyRef Name="serial_number" />
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="serial_number" Type="int" Nullable="false" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="contact_nick_name" Type="varchar" MaxLength="20" />
+          <Property Name="contact_phone_number" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="ginamsg_multi_im">
+          <Key>
+            <PropertyRef Name="channel_id" />
+            <PropertyRef Name="channel" />
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="channel_id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="channel" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="notivication" Type="varchar" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="ginamsg_multi_im_validate">
+          <Key>
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="account_phone_number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="validate_code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="validate_expired" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginaoffice_multi_im">
+          <Key>
+            <PropertyRef Name="channel_id" />
+            <PropertyRef Name="channel" />
+          </Key>
+          <Property Name="channel_id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="channel" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="auth_account" Type="varchar" MaxLength="255" />
+          <Property Name="notification" Type="varchar" MaxLength="1" />
+          <Property Name="validate_status" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="ginaoffice_task">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="topic" Type="nvarchar" MaxLength="1000" />
+          <Property Name="assigner" Type="varchar" MaxLength="255" />
+          <Property Name="accepter" Type="varchar" MaxLength="255" />
+          <Property Name="state" Type="varchar" MaxLength="50" />
+          <Property Name="due_time" Type="datetime" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="lastupdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginatalk_account">
+          <Key>
+            <PropertyRef Name="phone_number" />
+          </Key>
+          <Property Name="phone_number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="200" />
+          <Property Name="email" Type="nvarchar" MaxLength="200" />
+          <Property Name="language" Type="varchar" MaxLength="10" />
+          <Property Name="regist_date" Type="datetime" />
+          <Property Name="timezoneoffset" Type="int" />
+          <Property Name="country_code" Type="varchar" MaxLength="10" />
+          <Property Name="contact_limit" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_account_validate">
+          <Key>
+            <PropertyRef Name="channel_id" />
+            <PropertyRef Name="channel" />
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="channel_id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="channel" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="validate_times" Type="int" Nullable="false" />
+          <Property Name="validate_code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="validate_expired" Type="datetime" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="255" />
+          <Property Name="last_name" Type="varchar" MaxLength="255" />
+          <Property Name="language" Type="varchar" MaxLength="10" />
+          <Property Name="timezoneoffset" Type="int" />
+        </EntityType>
+        <EntityType Name="ginatalk_api_usage_log">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" Nullable="false" />
+          <Property Name="api_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="controller" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="action" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="method" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="request_url" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="header" Type="varchar(max)" Nullable="false" />
+          <Property Name="body" Type="varchar(max)" Nullable="false" />
+          <Property Name="create_time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginatalk_auth_client_mapping">
+          <Key>
+            <PropertyRef Name="client_id" />
+          </Key>
+          <Property Name="client_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="client_secret" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="scope" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="remark" Type="nvarchar" MaxLength="255" />
+          <Property Name="status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="create_time" Type="datetime" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'gina-db.dbo.ginatalk_auth_client_redirect_uri' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="ginatalk_auth_client_redirect_uri">
+          <Key>
+            <PropertyRef Name="client_id" />
+            <PropertyRef Name="redirect_uri" />
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="client_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="redirect_uri" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="remark" Type="nvarchar" MaxLength="255" />
+          <Property Name="status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="create_time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginatalk_authorization">
+          <Key>
+            <PropertyRef Name="access_token" />
+          </Key>
+          <Property Name="client_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="grant_type" Type="varchar" MaxLength="50" />
+          <Property Name="access_token" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="expired" Type="datetime" Nullable="false" />
+          <Property Name="refresh_token" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="scope" Type="varchar" MaxLength="50" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="channel" Type="varchar" MaxLength="255" />
+          <Property Name="channelId" Type="varchar" MaxLength="255" />
+          <Property Name="create_time" Type="datetime" />
+          <Property Name="last_update" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginatalk_contact">
+          <Key>
+            <PropertyRef Name="serial_number" />
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="serial_number" Type="int" Nullable="false" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="51" Nullable="false" />
+          <Property Name="contact_nick_name" Type="varchar" MaxLength="200" />
+          <Property Name="contact_phone_number" Type="varchar" MaxLength="50" />
+          <Property Name="contact_country_code" Type="varchar" MaxLength="10" />
+          <Property Name="contact_count" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_country_code_idx">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="country" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="country_code" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="country_code_len" Type="int" Nullable="false" />
+          <Property Name="iso_codes" Type="varchar" MaxLength="3" />
+          <Property Name="phone_number_len" Type="int" Nullable="false" />
+          <Property Name="language_code" Type="varchar" MaxLength="5" />
+          <Property Name="language_desc" Type="nvarchar" MaxLength="50" />
+          <Property Name="supported" Type="bit" />
+          <Property Name="sort_no" Type="int" />
+          <Property Name="op_is_main" Type="bit" />
+        </EntityType>
+        <EntityType Name="ginatalk_group">
+          <Key>
+            <PropertyRef Name="group_serial_number" />
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="group_serial_number" Type="int" Nullable="false" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="group_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="group_icon" Type="varchar" MaxLength="255" />
+          <Property Name="create_time" Type="datetime" />
+          <Property Name="last_update" Type="datetime" />
+          <Property Name="group_count" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_group_map">
+          <Key>
+            <PropertyRef Name="map_serial_number" />
+          </Key>
+          <Property Name="map_serial_number" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="group_serial_number" Type="int" Nullable="false" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="contact_serial_number" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_invitation">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sender" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="recipient" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="modify_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_luis_log">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" Nullable="false" />
+          <Property Name="channel" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="channel_id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="app_id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="query" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="intent" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="full_result" Type="varchar(max)" Nullable="false" />
+          <Property Name="create_time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginatalk_message">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="conversationid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="recipient_account" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="recipient_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="recipient_channel" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="sender_account" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="sender_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="sender_channel" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="payload" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="message_text" Type="nvarchar" MaxLength="1000" />
+          <Property Name="action" Type="varchar" MaxLength="50" />
+          <Property Name="create_time" Type="datetime" />
+          <Property Name="is_read" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_message_group">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="conversationid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="group_serial_number" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="sender_account" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="sender_name" Type="nvarchar" MaxLength="255" />
+          <Property Name="sender_channel" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="payload" Type="nvarchar" MaxLength="2000" Nullable="false" />
+          <Property Name="message_text" Type="nvarchar" MaxLength="1000" />
+          <Property Name="action" Type="varchar" MaxLength="50" />
+          <Property Name="create_time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginatalk_multi_group">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="group_code" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="group_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="is_private" Type="int" />
+          <Property Name="password" Type="varchar" MaxLength="50" />
+          <Property Name="owner_channel_id" Type="varchar" MaxLength="255" />
+          <Property Name="create_time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginatalk_multi_group_mapping">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="group_code" Type="varchar" MaxLength="255" />
+          <Property Name="channel" Type="varchar" MaxLength="50" />
+          <Property Name="group_channel_id" Type="varchar" MaxLength="255" />
+          <Property Name="owner_channel_id" Type="varchar" MaxLength="255" />
+          <Property Name="create_time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginatalk_multi_im">
+          <Key>
+            <PropertyRef Name="channel_id" />
+            <PropertyRef Name="channel" />
+          </Key>
+          <Property Name="channel_id" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="channel" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="255" />
+          <Property Name="notification" Type="varchar" MaxLength="1" />
+          <Property Name="validate_status" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="ginatalk_multi_im_validate">
+          <Key>
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="account_phone_number" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="validate_code" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="validate_expired" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_reminder_que">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="channelid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="uid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="payload_type" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="payload" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="reminder_time" Type="datetime" />
+          <Property Name="is_remind" Type="smallint" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="reminder_type" Type="smallint" />
+        </EntityType>
+        <EntityType Name="ginatalk_reminder_queue">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="channelid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="uid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="payload_type" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="payload" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="reminder_time" Type="datetime" />
+          <Property Name="is_remind" Type="smallint" />
+          <Property Name="is_allday" Type="smallint" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="reminder_type" Type="smallint" />
+        </EntityType>
+        <EntityType Name="ginatalk_sms">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="channel_id" Type="varchar" MaxLength="255" />
+          <Property Name="channel" Type="varchar" MaxLength="255" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="255" />
+          <Property Name="recipient_phone_number" Type="varchar" MaxLength="255" />
+          <Property Name="sms_text" Type="nvarchar(max)" />
+          <Property Name="caller_method_name" Type="varchar" MaxLength="225" />
+          <Property Name="message_id" Type="varchar" MaxLength="255" />
+          <Property Name="createtime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginatalk_sys_log">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="channel" Type="varchar" MaxLength="255" />
+          <Property Name="channel_id" Type="varchar" MaxLength="255" />
+          <Property Name="account_phone_number" Type="varchar" MaxLength="20" />
+          <Property Name="class_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="function_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="event_type" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="event_message" Type="varchar(max)" />
+          <Property Name="create_time" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_sys_user">
+          <Key>
+            <PropertyRef Name="uid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uid" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="200" />
+          <Property Name="access_token" Type="varchar" MaxLength="1000" />
+          <Property Name="role" Type="varchar" MaxLength="20" />
+          <Property Name="status" Type="varchar" MaxLength="20" />
+          <Property Name="create_date" Type="datetime" />
+          <Property Name="last_update" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginatalk_task">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="topic" Type="nvarchar" MaxLength="1000" />
+          <Property Name="assigner" Type="varchar" MaxLength="255" />
+          <Property Name="accepter" Type="varchar" MaxLength="255" />
+          <Property Name="state" Type="varchar" MaxLength="50" />
+          <Property Name="due_time" Type="datetime" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="lastupdate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ginatalk_timezone">
+          <Key>
+            <PropertyRef Name="timezone_name" />
+          </Key>
+          <Property Name="timezone_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="timezoneoffset" Type="int" />
+        </EntityType>
+        <EntityType Name="ginatalk_web_account">
+          <Key>
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="account_phone_number" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="first_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="last_name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="status" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="access_token" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="create_time" Type="datetime" />
+          <Property Name="last_update" Type="datetime" />
+        </EntityType>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="recipient_account" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="recipient_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="recipient_channel" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="sender_account" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="sender_name" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="sender_channel" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="payload" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="message_text" Type="varchar" MaxLength="1000" />
+          <Property Name="action" Type="varchar" MaxLength="50" />
+          <Property Name="create_time" Type="datetime" />
+        </EntityType>
+        <EntityType Name="reminder_que">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="channelid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="uid" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="payload_type" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="payload" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="reminder_time" Type="datetime" />
+          <Property Name="is_remind" Type="smallint" />
+          <Property Name="createtime" Type="datetime" />
+          <Property Name="reminder_type" Type="smallint" />
+        </EntityType>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="auth_mapping" EntityType="Self.auth_mapping" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="auth_transfer" EntityType="Self.auth_transfer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginamsg_account" EntityType="Self.ginamsg_account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginamsg_account_validate" EntityType="Self.ginamsg_account_validate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginamsg_account_validate2" EntityType="Self.ginamsg_account_validate2" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginamsg_contact" EntityType="Self.ginamsg_contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginamsg_multi_im" EntityType="Self.ginamsg_multi_im" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginamsg_multi_im_validate" EntityType="Self.ginamsg_multi_im_validate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginaoffice_multi_im" EntityType="Self.ginaoffice_multi_im" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginaoffice_task" EntityType="Self.ginaoffice_task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_account" EntityType="Self.ginatalk_account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_account_validate" EntityType="Self.ginatalk_account_validate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_api_usage_log" EntityType="Self.ginatalk_api_usage_log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_auth_client_mapping" EntityType="Self.ginatalk_auth_client_mapping" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_authorization" EntityType="Self.ginatalk_authorization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_contact" EntityType="Self.ginatalk_contact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_country_code_idx" EntityType="Self.ginatalk_country_code_idx" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_group" EntityType="Self.ginatalk_group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_group_map" EntityType="Self.ginatalk_group_map" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_invitation" EntityType="Self.ginatalk_invitation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_luis_log" EntityType="Self.ginatalk_luis_log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_message" EntityType="Self.ginatalk_message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_message_group" EntityType="Self.ginatalk_message_group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_multi_group" EntityType="Self.ginatalk_multi_group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_multi_group_mapping" EntityType="Self.ginatalk_multi_group_mapping" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_multi_im" EntityType="Self.ginatalk_multi_im" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_multi_im_validate" EntityType="Self.ginatalk_multi_im_validate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_reminder_que" EntityType="Self.ginatalk_reminder_que" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_reminder_queue" EntityType="Self.ginatalk_reminder_queue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_sms" EntityType="Self.ginatalk_sms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_sys_log" EntityType="Self.ginatalk_sys_log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_sys_user" EntityType="Self.ginatalk_sys_user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_task" EntityType="Self.ginatalk_task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_timezone" EntityType="Self.ginatalk_timezone" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ginatalk_web_account" EntityType="Self.ginatalk_web_account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="message" EntityType="Self.message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="reminder_que" EntityType="Self.reminder_que" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="alexa_skill_auth_infos" EntityType="Self.alexa_skill_auth_infos" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [alexa_skill_auth_infos].[id] AS [id], 
+    [alexa_skill_auth_infos].[guid] AS [guid], 
+    [alexa_skill_auth_infos].[client_id] AS [client_id], 
+    [alexa_skill_auth_infos].[response_type] AS [response_type], 
+    [alexa_skill_auth_infos].[scope] AS [scope], 
+    [alexa_skill_auth_infos].[response_mode] AS [response_mode], 
+    [alexa_skill_auth_infos].[redirect_uri] AS [redirect_uri], 
+    [alexa_skill_auth_infos].[state] AS [state]
+    FROM [dbo].[alexa_skill_auth_infos] AS [alexa_skill_auth_infos]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ginatalk_auth_client_redirect_uri" EntityType="Self.ginatalk_auth_client_redirect_uri" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ginatalk_auth_client_redirect_uri].[client_id] AS [client_id], 
+    [ginatalk_auth_client_redirect_uri].[redirect_uri] AS [redirect_uri], 
+    [ginatalk_auth_client_redirect_uri].[remark] AS [remark], 
+    [ginatalk_auth_client_redirect_uri].[status] AS [status], 
+    [ginatalk_auth_client_redirect_uri].[create_time] AS [create_time]
+    FROM [dbo].[ginatalk_auth_client_redirect_uri] AS [ginatalk_auth_client_redirect_uri]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="auth_mapping">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="auth_login_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="channelid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+          <Property Name="allow_notify" Type="Int16" />
+        </EntityType>
+        <EntityType Name="auth_transfer">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="validate" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="authresult" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="channelid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+          <Property Name="expired" Type="DateTime" Precision="3" />
+          <Property Name="transfer_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginamsg_account">
+          <Key>
+            <PropertyRef Name="phone_number" />
+          </Key>
+          <Property Name="phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="regist_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="regist_date" Type="DateTime" Precision="3" />
+          <Property Name="language" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ginamsg_account_validate">
+          <Key>
+            <PropertyRef Name="account_phone_number" />
+            <PropertyRef Name="validate_times" />
+          </Key>
+          <Property Name="account_phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="validate_times" Type="Int32" Nullable="false" />
+          <Property Name="validate_code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="validate_expired" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="validate_status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginamsg_account_validate2">
+          <Key>
+            <PropertyRef Name="channel_id" />
+            <PropertyRef Name="channel" />
+            <PropertyRef Name="account_phone_number" />
+            <PropertyRef Name="validate_times" />
+          </Key>
+          <Property Name="channel_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="validate_times" Type="Int32" Nullable="false" />
+          <Property Name="validate_code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="validate_expired" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="validate_status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginamsg_contact">
+          <Key>
+            <PropertyRef Name="serial_number" />
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="serial_number" Type="Int32" Nullable="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contact_nick_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="contact_phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ginamsg_multi_im">
+          <Key>
+            <PropertyRef Name="channel_id" />
+            <PropertyRef Name="channel" />
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="channel_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="notivication" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ginamsg_multi_im_validate">
+          <Key>
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="account_phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="validate_code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="validate_expired" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginaoffice_multi_im">
+          <Key>
+            <PropertyRef Name="channel_id" />
+            <PropertyRef Name="channel" />
+          </Key>
+          <Property Name="channel_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="auth_account" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="notification" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="validate_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ginaoffice_task">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="topic" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="assigner" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="accepter" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="due_time" Type="DateTime" Precision="3" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+          <Property Name="lastupdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_account">
+          <Key>
+            <PropertyRef Name="phone_number" />
+          </Key>
+          <Property Name="phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="language" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="regist_date" Type="DateTime" Precision="3" />
+          <Property Name="timezoneoffset" Type="Int32" />
+          <Property Name="country_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="contact_limit" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_account_validate">
+          <Key>
+            <PropertyRef Name="channel_id" />
+            <PropertyRef Name="channel" />
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="channel_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="validate_times" Type="Int32" Nullable="false" />
+          <Property Name="validate_code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="validate_expired" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="first_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="language" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="timezoneoffset" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ginatalk_api_usage_log">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" />
+          <Property Name="api_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="controller" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="action" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="method" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="request_url" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="header" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="body" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_auth_client_mapping">
+          <Key>
+            <PropertyRef Name="client_id" />
+          </Key>
+          <Property Name="client_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="client_secret" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="scope" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="remark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_authorization">
+          <Key>
+            <PropertyRef Name="access_token" />
+          </Key>
+          <Property Name="client_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="grant_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="access_token" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="expired" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="refresh_token" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="scope" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="channelId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+          <Property Name="last_update" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_contact">
+          <Key>
+            <PropertyRef Name="serial_number" />
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="serial_number" Type="Int32" Nullable="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="51" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contact_nick_name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="contact_phone_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="contact_country_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="contact_count" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_country_code_idx">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="country_code" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="country_code_len" Type="Int32" Nullable="false" />
+          <Property Name="iso_codes" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="phone_number_len" Type="Int32" Nullable="false" />
+          <Property Name="language_code" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="language_desc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="supported" Type="Boolean" />
+          <Property Name="sort_no" Type="Int32" />
+          <Property Name="op_is_main" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="ginatalk_group">
+          <Key>
+            <PropertyRef Name="group_serial_number" />
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="group_serial_number" Type="Int32" Nullable="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="group_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="group_icon" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+          <Property Name="last_update" Type="DateTime" Precision="3" />
+          <Property Name="group_count" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_group_map">
+          <Key>
+            <PropertyRef Name="map_serial_number" />
+          </Key>
+          <Property Name="map_serial_number" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="group_serial_number" Type="Int32" Nullable="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contact_serial_number" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_invitation">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sender" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="recipient" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_luis_log">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" />
+          <Property Name="channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="channel_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="app_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="query" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="intent" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="full_result" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_message">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="conversationid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="recipient_account" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="recipient_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="recipient_channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sender_account" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sender_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="sender_channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payload" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="message_text" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="action" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+          <Property Name="is_read" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_message_group">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="conversationid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="group_serial_number" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sender_account" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sender_name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="sender_channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payload" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="message_text" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="action" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_multi_group">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="group_code" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="group_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="is_private" Type="Int32" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="owner_channel_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_multi_group_mapping">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="group_code" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="channel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="group_channel_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="owner_channel_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_multi_im">
+          <Key>
+            <PropertyRef Name="channel_id" />
+            <PropertyRef Name="channel" />
+          </Key>
+          <Property Name="channel_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="notification" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="validate_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_multi_im_validate">
+          <Key>
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="account_phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="validate_code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="validate_expired" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_reminder_que">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="channelid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payload_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payload" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="reminder_time" Type="DateTime" Precision="3" />
+          <Property Name="is_remind" Type="Int16" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+          <Property Name="reminder_type" Type="Int16" />
+        </EntityType>
+        <EntityType Name="ginatalk_reminder_queue">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="account_phone_number" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="channelid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payload_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payload" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="reminder_time" Type="DateTime" Precision="3" />
+          <Property Name="is_remind" Type="Int16" />
+          <Property Name="is_allday" Type="Int16" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+          <Property Name="reminder_type" Type="Int16" />
+        </EntityType>
+        <EntityType Name="ginatalk_sms">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="channel_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="recipient_phone_number" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="sms_text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="caller_method_name" Type="String" MaxLength="225" FixedLength="false" Unicode="false" />
+          <Property Name="message_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_sys_log">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="channel_id" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="account_phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="class_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="function_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="event_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="event_message" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="create_time" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_sys_user">
+          <Key>
+            <PropertyRef Name="uid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uid" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="access_token" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="role" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="create_date" Type="DateTime" Precision="3" />
+          <Property Name="last_update" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_task">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="topic" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="assigner" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="accepter" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="due_time" Type="DateTime" Precision="3" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+          <Property Name="lastupdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ginatalk_timezone">
+          <Key>
+            <PropertyRef Name="timezone_name" />
+          </Key>
+          <Property Name="timezone_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="timezoneoffset" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ginatalk_web_account">
+          <Key>
+            <PropertyRef Name="account_phone_number" />
+          </Key>
+          <Property Name="account_phone_number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="access_token" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+          <Property Name="last_update" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="recipient_account" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="recipient_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="recipient_channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sender_account" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sender_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sender_channel" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payload" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="message_text" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="action" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="reminder_que">
+          <Key>
+            <PropertyRef Name="guid" />
+          </Key>
+          <Property Name="guid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="channelid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="uid" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payload_type" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="payload" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="reminder_time" Type="DateTime" Precision="3" />
+          <Property Name="is_remind" Type="Int16" />
+          <Property Name="createtime" Type="DateTime" Precision="3" />
+          <Property Name="reminder_type" Type="Int16" />
+        </EntityType>
+        <EntityType Name="alexa_skill_auth_infos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="guid" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="client_id" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="response_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="scope" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="response_mode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="redirect_uri" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="state" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ginatalk_auth_client_redirect_uri">
+          <Key>
+            <PropertyRef Name="client_id" />
+            <PropertyRef Name="redirect_uri" />
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="client_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="redirect_uri" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="remark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="create_time" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="auth_mapping" EntityType="Self.auth_mapping" />
+          <EntitySet Name="auth_transfer" EntityType="Self.auth_transfer" />
+          <EntitySet Name="ginamsg_account" EntityType="Self.ginamsg_account" />
+          <EntitySet Name="ginamsg_account_validate" EntityType="Self.ginamsg_account_validate" />
+          <EntitySet Name="ginamsg_account_validate2" EntityType="Self.ginamsg_account_validate2" />
+          <EntitySet Name="ginamsg_contact" EntityType="Self.ginamsg_contact" />
+          <EntitySet Name="ginamsg_multi_im" EntityType="Self.ginamsg_multi_im" />
+          <EntitySet Name="ginamsg_multi_im_validate" EntityType="Self.ginamsg_multi_im_validate" />
+          <EntitySet Name="ginaoffice_multi_im" EntityType="Self.ginaoffice_multi_im" />
+          <EntitySet Name="ginaoffice_task" EntityType="Self.ginaoffice_task" />
+          <EntitySet Name="ginatalk_account" EntityType="Self.ginatalk_account" />
+          <EntitySet Name="ginatalk_account_validate" EntityType="Self.ginatalk_account_validate" />
+          <EntitySet Name="ginatalk_api_usage_log" EntityType="Self.ginatalk_api_usage_log" />
+          <EntitySet Name="ginatalk_auth_client_mapping" EntityType="Self.ginatalk_auth_client_mapping" />
+          <EntitySet Name="ginatalk_authorization" EntityType="Self.ginatalk_authorization" />
+          <EntitySet Name="ginatalk_contact" EntityType="Self.ginatalk_contact" />
+          <EntitySet Name="ginatalk_country_code_idx" EntityType="Self.ginatalk_country_code_idx" />
+          <EntitySet Name="ginatalk_group" EntityType="Self.ginatalk_group" />
+          <EntitySet Name="ginatalk_group_map" EntityType="Self.ginatalk_group_map" />
+          <EntitySet Name="ginatalk_invitation" EntityType="Self.ginatalk_invitation" />
+          <EntitySet Name="ginatalk_luis_log" EntityType="Self.ginatalk_luis_log" />
+          <EntitySet Name="ginatalk_message" EntityType="Self.ginatalk_message" />
+          <EntitySet Name="ginatalk_message_group" EntityType="Self.ginatalk_message_group" />
+          <EntitySet Name="ginatalk_multi_group" EntityType="Self.ginatalk_multi_group" />
+          <EntitySet Name="ginatalk_multi_group_mapping" EntityType="Self.ginatalk_multi_group_mapping" />
+          <EntitySet Name="ginatalk_multi_im" EntityType="Self.ginatalk_multi_im" />
+          <EntitySet Name="ginatalk_multi_im_validate" EntityType="Self.ginatalk_multi_im_validate" />
+          <EntitySet Name="ginatalk_reminder_que" EntityType="Self.ginatalk_reminder_que" />
+          <EntitySet Name="ginatalk_reminder_queue" EntityType="Self.ginatalk_reminder_queue" />
+          <EntitySet Name="ginatalk_sms" EntityType="Self.ginatalk_sms" />
+          <EntitySet Name="ginatalk_sys_log" EntityType="Self.ginatalk_sys_log" />
+          <EntitySet Name="ginatalk_sys_user" EntityType="Self.ginatalk_sys_user" />
+          <EntitySet Name="ginatalk_task" EntityType="Self.ginatalk_task" />
+          <EntitySet Name="ginatalk_timezone" EntityType="Self.ginatalk_timezone" />
+          <EntitySet Name="ginatalk_web_account" EntityType="Self.ginatalk_web_account" />
+          <EntitySet Name="message" EntityType="Self.message" />
+          <EntitySet Name="reminder_que" EntityType="Self.reminder_que" />
+          <EntitySet Name="alexa_skill_auth_infos" EntityType="Self.alexa_skill_auth_infos" />
+          <EntitySet Name="ginatalk_auth_client_redirect_uri" EntityType="Self.ginatalk_auth_client_redirect_uri" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="auth_mapping">
+            <EntityTypeMapping TypeName="Model.auth_mapping">
+              <MappingFragment StoreEntitySet="auth_mapping">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="auth_login_id" ColumnName="auth_login_id" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="channelid" ColumnName="channelid" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="allow_notify" ColumnName="allow_notify" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="auth_transfer">
+            <EntityTypeMapping TypeName="Model.auth_transfer">
+              <MappingFragment StoreEntitySet="auth_transfer">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="validate" ColumnName="validate" />
+                <ScalarProperty Name="authresult" ColumnName="authresult" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="channelid" ColumnName="channelid" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="expired" ColumnName="expired" />
+                <ScalarProperty Name="transfer_time" ColumnName="transfer_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginamsg_account">
+            <EntityTypeMapping TypeName="Model.ginamsg_account">
+              <MappingFragment StoreEntitySet="ginamsg_account">
+                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="regist_status" ColumnName="regist_status" />
+                <ScalarProperty Name="regist_date" ColumnName="regist_date" />
+                <ScalarProperty Name="language" ColumnName="language" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginamsg_account_validate">
+            <EntityTypeMapping TypeName="Model.ginamsg_account_validate">
+              <MappingFragment StoreEntitySet="ginamsg_account_validate">
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="validate_times" ColumnName="validate_times" />
+                <ScalarProperty Name="validate_code" ColumnName="validate_code" />
+                <ScalarProperty Name="validate_expired" ColumnName="validate_expired" />
+                <ScalarProperty Name="validate_status" ColumnName="validate_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginamsg_account_validate2">
+            <EntityTypeMapping TypeName="Model.ginamsg_account_validate2">
+              <MappingFragment StoreEntitySet="ginamsg_account_validate2">
+                <ScalarProperty Name="channel_id" ColumnName="channel_id" />
+                <ScalarProperty Name="channel" ColumnName="channel" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="validate_times" ColumnName="validate_times" />
+                <ScalarProperty Name="validate_code" ColumnName="validate_code" />
+                <ScalarProperty Name="validate_expired" ColumnName="validate_expired" />
+                <ScalarProperty Name="validate_status" ColumnName="validate_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginamsg_contact">
+            <EntityTypeMapping TypeName="Model.ginamsg_contact">
+              <MappingFragment StoreEntitySet="ginamsg_contact">
+                <ScalarProperty Name="serial_number" ColumnName="serial_number" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="contact_nick_name" ColumnName="contact_nick_name" />
+                <ScalarProperty Name="contact_phone_number" ColumnName="contact_phone_number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginamsg_multi_im">
+            <EntityTypeMapping TypeName="Model.ginamsg_multi_im">
+              <MappingFragment StoreEntitySet="ginamsg_multi_im">
+                <ScalarProperty Name="channel_id" ColumnName="channel_id" />
+                <ScalarProperty Name="channel" ColumnName="channel" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="notivication" ColumnName="notivication" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginamsg_multi_im_validate">
+            <EntityTypeMapping TypeName="Model.ginamsg_multi_im_validate">
+              <MappingFragment StoreEntitySet="ginamsg_multi_im_validate">
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="validate_code" ColumnName="validate_code" />
+                <ScalarProperty Name="validate_expired" ColumnName="validate_expired" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginaoffice_multi_im">
+            <EntityTypeMapping TypeName="Model.ginaoffice_multi_im">
+              <MappingFragment StoreEntitySet="ginaoffice_multi_im">
+                <ScalarProperty Name="channel_id" ColumnName="channel_id" />
+                <ScalarProperty Name="channel" ColumnName="channel" />
+                <ScalarProperty Name="auth_account" ColumnName="auth_account" />
+                <ScalarProperty Name="notification" ColumnName="notification" />
+                <ScalarProperty Name="validate_status" ColumnName="validate_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginaoffice_task">
+            <EntityTypeMapping TypeName="Model.ginaoffice_task">
+              <MappingFragment StoreEntitySet="ginaoffice_task">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="topic" ColumnName="topic" />
+                <ScalarProperty Name="assigner" ColumnName="assigner" />
+                <ScalarProperty Name="accepter" ColumnName="accepter" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="due_time" ColumnName="due_time" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="lastupdate" ColumnName="lastupdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_account">
+            <EntityTypeMapping TypeName="Model.ginatalk_account">
+              <MappingFragment StoreEntitySet="ginatalk_account">
+                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="language" ColumnName="language" />
+                <ScalarProperty Name="regist_date" ColumnName="regist_date" />
+                <ScalarProperty Name="timezoneoffset" ColumnName="timezoneoffset" />
+                <ScalarProperty Name="country_code" ColumnName="country_code" />
+                <ScalarProperty Name="contact_limit" ColumnName="contact_limit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_account_validate">
+            <EntityTypeMapping TypeName="Model.ginatalk_account_validate">
+              <MappingFragment StoreEntitySet="ginatalk_account_validate">
+                <ScalarProperty Name="channel_id" ColumnName="channel_id" />
+                <ScalarProperty Name="channel" ColumnName="channel" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="validate_times" ColumnName="validate_times" />
+                <ScalarProperty Name="validate_code" ColumnName="validate_code" />
+                <ScalarProperty Name="validate_expired" ColumnName="validate_expired" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="language" ColumnName="language" />
+                <ScalarProperty Name="timezoneoffset" ColumnName="timezoneoffset" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_api_usage_log">
+            <EntityTypeMapping TypeName="Model.ginatalk_api_usage_log">
+              <MappingFragment StoreEntitySet="ginatalk_api_usage_log">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="api_name" ColumnName="api_name" />
+                <ScalarProperty Name="controller" ColumnName="controller" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="method" ColumnName="method" />
+                <ScalarProperty Name="request_url" ColumnName="request_url" />
+                <ScalarProperty Name="header" ColumnName="header" />
+                <ScalarProperty Name="body" ColumnName="body" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_auth_client_mapping">
+            <EntityTypeMapping TypeName="Model.ginatalk_auth_client_mapping">
+              <MappingFragment StoreEntitySet="ginatalk_auth_client_mapping">
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="client_secret" ColumnName="client_secret" />
+                <ScalarProperty Name="scope" ColumnName="scope" />
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_authorization">
+            <EntityTypeMapping TypeName="Model.ginatalk_authorization">
+              <MappingFragment StoreEntitySet="ginatalk_authorization">
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="grant_type" ColumnName="grant_type" />
+                <ScalarProperty Name="access_token" ColumnName="access_token" />
+                <ScalarProperty Name="expired" ColumnName="expired" />
+                <ScalarProperty Name="refresh_token" ColumnName="refresh_token" />
+                <ScalarProperty Name="scope" ColumnName="scope" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="channel" ColumnName="channel" />
+                <ScalarProperty Name="channelId" ColumnName="channelId" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+                <ScalarProperty Name="last_update" ColumnName="last_update" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_contact">
+            <EntityTypeMapping TypeName="Model.ginatalk_contact">
+              <MappingFragment StoreEntitySet="ginatalk_contact">
+                <ScalarProperty Name="serial_number" ColumnName="serial_number" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="contact_nick_name" ColumnName="contact_nick_name" />
+                <ScalarProperty Name="contact_phone_number" ColumnName="contact_phone_number" />
+                <ScalarProperty Name="contact_country_code" ColumnName="contact_country_code" />
+                <ScalarProperty Name="contact_count" ColumnName="contact_count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_country_code_idx">
+            <EntityTypeMapping TypeName="Model.ginatalk_country_code_idx">
+              <MappingFragment StoreEntitySet="ginatalk_country_code_idx">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="country" ColumnName="country" />
+                <ScalarProperty Name="country_code" ColumnName="country_code" />
+                <ScalarProperty Name="country_code_len" ColumnName="country_code_len" />
+                <ScalarProperty Name="iso_codes" ColumnName="iso_codes" />
+                <ScalarProperty Name="phone_number_len" ColumnName="phone_number_len" />
+                <ScalarProperty Name="language_code" ColumnName="language_code" />
+                <ScalarProperty Name="language_desc" ColumnName="language_desc" />
+                <ScalarProperty Name="supported" ColumnName="supported" />
+                <ScalarProperty Name="sort_no" ColumnName="sort_no" />
+                <ScalarProperty Name="op_is_main" ColumnName="op_is_main" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_group">
+            <EntityTypeMapping TypeName="Model.ginatalk_group">
+              <MappingFragment StoreEntitySet="ginatalk_group">
+                <ScalarProperty Name="group_serial_number" ColumnName="group_serial_number" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="group_name" ColumnName="group_name" />
+                <ScalarProperty Name="group_icon" ColumnName="group_icon" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+                <ScalarProperty Name="last_update" ColumnName="last_update" />
+                <ScalarProperty Name="group_count" ColumnName="group_count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_group_map">
+            <EntityTypeMapping TypeName="Model.ginatalk_group_map">
+              <MappingFragment StoreEntitySet="ginatalk_group_map">
+                <ScalarProperty Name="map_serial_number" ColumnName="map_serial_number" />
+                <ScalarProperty Name="group_serial_number" ColumnName="group_serial_number" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="contact_serial_number" ColumnName="contact_serial_number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_invitation">
+            <EntityTypeMapping TypeName="Model.ginatalk_invitation">
+              <MappingFragment StoreEntitySet="ginatalk_invitation">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="sender" ColumnName="sender" />
+                <ScalarProperty Name="recipient" ColumnName="recipient" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="modify_date" ColumnName="modify_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_luis_log">
+            <EntityTypeMapping TypeName="Model.ginatalk_luis_log">
+              <MappingFragment StoreEntitySet="ginatalk_luis_log">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="channel" ColumnName="channel" />
+                <ScalarProperty Name="channel_id" ColumnName="channel_id" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="app_id" ColumnName="app_id" />
+                <ScalarProperty Name="query" ColumnName="query" />
+                <ScalarProperty Name="intent" ColumnName="intent" />
+                <ScalarProperty Name="full_result" ColumnName="full_result" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_message">
+            <EntityTypeMapping TypeName="Model.ginatalk_message">
+              <MappingFragment StoreEntitySet="ginatalk_message">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="conversationid" ColumnName="conversationid" />
+                <ScalarProperty Name="recipient_account" ColumnName="recipient_account" />
+                <ScalarProperty Name="recipient_name" ColumnName="recipient_name" />
+                <ScalarProperty Name="recipient_channel" ColumnName="recipient_channel" />
+                <ScalarProperty Name="sender_account" ColumnName="sender_account" />
+                <ScalarProperty Name="sender_name" ColumnName="sender_name" />
+                <ScalarProperty Name="sender_channel" ColumnName="sender_channel" />
+                <ScalarProperty Name="payload" ColumnName="payload" />
+                <ScalarProperty Name="message_text" ColumnName="message_text" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+                <ScalarProperty Name="is_read" ColumnName="is_read" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_message_group">
+            <EntityTypeMapping TypeName="Model.ginatalk_message_group">
+              <MappingFragment StoreEntitySet="ginatalk_message_group">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="conversationid" ColumnName="conversationid" />
+                <ScalarProperty Name="group_serial_number" ColumnName="group_serial_number" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="sender_account" ColumnName="sender_account" />
+                <ScalarProperty Name="sender_name" ColumnName="sender_name" />
+                <ScalarProperty Name="sender_channel" ColumnName="sender_channel" />
+                <ScalarProperty Name="payload" ColumnName="payload" />
+                <ScalarProperty Name="message_text" ColumnName="message_text" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_multi_group">
+            <EntityTypeMapping TypeName="Model.ginatalk_multi_group">
+              <MappingFragment StoreEntitySet="ginatalk_multi_group">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="group_code" ColumnName="group_code" />
+                <ScalarProperty Name="group_name" ColumnName="group_name" />
+                <ScalarProperty Name="is_private" ColumnName="is_private" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="owner_channel_id" ColumnName="owner_channel_id" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_multi_group_mapping">
+            <EntityTypeMapping TypeName="Model.ginatalk_multi_group_mapping">
+              <MappingFragment StoreEntitySet="ginatalk_multi_group_mapping">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="group_code" ColumnName="group_code" />
+                <ScalarProperty Name="channel" ColumnName="channel" />
+                <ScalarProperty Name="group_channel_id" ColumnName="group_channel_id" />
+                <ScalarProperty Name="owner_channel_id" ColumnName="owner_channel_id" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_multi_im">
+            <EntityTypeMapping TypeName="Model.ginatalk_multi_im">
+              <MappingFragment StoreEntitySet="ginatalk_multi_im">
+                <ScalarProperty Name="channel_id" ColumnName="channel_id" />
+                <ScalarProperty Name="channel" ColumnName="channel" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="notification" ColumnName="notification" />
+                <ScalarProperty Name="validate_status" ColumnName="validate_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_multi_im_validate">
+            <EntityTypeMapping TypeName="Model.ginatalk_multi_im_validate">
+              <MappingFragment StoreEntitySet="ginatalk_multi_im_validate">
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="validate_code" ColumnName="validate_code" />
+                <ScalarProperty Name="validate_expired" ColumnName="validate_expired" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_reminder_que">
+            <EntityTypeMapping TypeName="Model.ginatalk_reminder_que">
+              <MappingFragment StoreEntitySet="ginatalk_reminder_que">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="channelid" ColumnName="channelid" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="payload_type" ColumnName="payload_type" />
+                <ScalarProperty Name="payload" ColumnName="payload" />
+                <ScalarProperty Name="reminder_time" ColumnName="reminder_time" />
+                <ScalarProperty Name="is_remind" ColumnName="is_remind" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="reminder_type" ColumnName="reminder_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_reminder_queue">
+            <EntityTypeMapping TypeName="Model.ginatalk_reminder_queue">
+              <MappingFragment StoreEntitySet="ginatalk_reminder_queue">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="channelid" ColumnName="channelid" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="payload_type" ColumnName="payload_type" />
+                <ScalarProperty Name="payload" ColumnName="payload" />
+                <ScalarProperty Name="reminder_time" ColumnName="reminder_time" />
+                <ScalarProperty Name="is_remind" ColumnName="is_remind" />
+                <ScalarProperty Name="is_allday" ColumnName="is_allday" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="reminder_type" ColumnName="reminder_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_sms">
+            <EntityTypeMapping TypeName="Model.ginatalk_sms">
+              <MappingFragment StoreEntitySet="ginatalk_sms">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="channel_id" ColumnName="channel_id" />
+                <ScalarProperty Name="channel" ColumnName="channel" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="recipient_phone_number" ColumnName="recipient_phone_number" />
+                <ScalarProperty Name="sms_text" ColumnName="sms_text" />
+                <ScalarProperty Name="caller_method_name" ColumnName="caller_method_name" />
+                <ScalarProperty Name="message_id" ColumnName="message_id" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_sys_log">
+            <EntityTypeMapping TypeName="Model.ginatalk_sys_log">
+              <MappingFragment StoreEntitySet="ginatalk_sys_log">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="channel" ColumnName="channel" />
+                <ScalarProperty Name="channel_id" ColumnName="channel_id" />
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="class_name" ColumnName="class_name" />
+                <ScalarProperty Name="function_name" ColumnName="function_name" />
+                <ScalarProperty Name="event_type" ColumnName="event_type" />
+                <ScalarProperty Name="event_message" ColumnName="event_message" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_sys_user">
+            <EntityTypeMapping TypeName="Model.ginatalk_sys_user">
+              <MappingFragment StoreEntitySet="ginatalk_sys_user">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="access_token" ColumnName="access_token" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="create_date" ColumnName="create_date" />
+                <ScalarProperty Name="last_update" ColumnName="last_update" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_task">
+            <EntityTypeMapping TypeName="Model.ginatalk_task">
+              <MappingFragment StoreEntitySet="ginatalk_task">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="topic" ColumnName="topic" />
+                <ScalarProperty Name="assigner" ColumnName="assigner" />
+                <ScalarProperty Name="accepter" ColumnName="accepter" />
+                <ScalarProperty Name="state" ColumnName="state" />
+                <ScalarProperty Name="due_time" ColumnName="due_time" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="lastupdate" ColumnName="lastupdate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_timezone">
+            <EntityTypeMapping TypeName="Model.ginatalk_timezone">
+              <MappingFragment StoreEntitySet="ginatalk_timezone">
+                <ScalarProperty Name="timezone_name" ColumnName="timezone_name" />
+                <ScalarProperty Name="timezoneoffset" ColumnName="timezoneoffset" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_web_account">
+            <EntityTypeMapping TypeName="Model.ginatalk_web_account">
+              <MappingFragment StoreEntitySet="ginatalk_web_account">
+                <ScalarProperty Name="account_phone_number" ColumnName="account_phone_number" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="access_token" ColumnName="access_token" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+                <ScalarProperty Name="last_update" ColumnName="last_update" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="message">
+            <EntityTypeMapping TypeName="Model.message">
+              <MappingFragment StoreEntitySet="message">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="recipient_account" ColumnName="recipient_account" />
+                <ScalarProperty Name="recipient_name" ColumnName="recipient_name" />
+                <ScalarProperty Name="recipient_channel" ColumnName="recipient_channel" />
+                <ScalarProperty Name="sender_account" ColumnName="sender_account" />
+                <ScalarProperty Name="sender_name" ColumnName="sender_name" />
+                <ScalarProperty Name="sender_channel" ColumnName="sender_channel" />
+                <ScalarProperty Name="payload" ColumnName="payload" />
+                <ScalarProperty Name="message_text" ColumnName="message_text" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="reminder_que">
+            <EntityTypeMapping TypeName="Model.reminder_que">
+              <MappingFragment StoreEntitySet="reminder_que">
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="channelid" ColumnName="channelid" />
+                <ScalarProperty Name="uid" ColumnName="uid" />
+                <ScalarProperty Name="payload_type" ColumnName="payload_type" />
+                <ScalarProperty Name="payload" ColumnName="payload" />
+                <ScalarProperty Name="reminder_time" ColumnName="reminder_time" />
+                <ScalarProperty Name="is_remind" ColumnName="is_remind" />
+                <ScalarProperty Name="createtime" ColumnName="createtime" />
+                <ScalarProperty Name="reminder_type" ColumnName="reminder_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="alexa_skill_auth_infos">
+            <EntityTypeMapping TypeName="Model.alexa_skill_auth_infos">
+              <MappingFragment StoreEntitySet="alexa_skill_auth_infos">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="response_type" ColumnName="response_type" />
+                <ScalarProperty Name="scope" ColumnName="scope" />
+                <ScalarProperty Name="response_mode" ColumnName="response_mode" />
+                <ScalarProperty Name="redirect_uri" ColumnName="redirect_uri" />
+                <ScalarProperty Name="state" ColumnName="state" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ginatalk_auth_client_redirect_uri">
+            <EntityTypeMapping TypeName="Model.ginatalk_auth_client_redirect_uri">
+              <MappingFragment StoreEntitySet="ginatalk_auth_client_redirect_uri">
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="redirect_uri" ColumnName="redirect_uri" />
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="create_time" ColumnName="create_time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
